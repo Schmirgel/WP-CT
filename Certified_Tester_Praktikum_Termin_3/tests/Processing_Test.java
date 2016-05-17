@@ -149,30 +149,121 @@ public class Processing_Test {
     	assertTrue(actual);
     }
     
-//    @Test
-//    public void appendDot() {
-//    	String numberLineString = "123456789012345678901";
-//    	boolean actual;
-//    	
-//    	store.setNumberLine(numberLineString);
-//    	actual = pUnit.appendDot();
-//    	assertFalse(actual);
-//    	
-//    	numberLineString = "0.";
-//    	
-//    	store.setNumberLine(numberLineString);
-//    	actual = pUnit.appendDot();
-//    	assertFalse(actual);
-//    }
-    
+    //appendDot mit einem String der länge <1 wird der Branch nicht erreicht
     @Test
-    public void bla() {
-    	String numberLineString = "0";
-    	String expected = "0.";
+    public void appendDot() {
+    	String numberLineString = "123456789012345678901";
     	boolean actual;
+    	
+    	store.setNumberLine(numberLineString);
+    	actual = pUnit.appendDot();
+    	assertFalse(actual);
+    	
+    	numberLineString = "0.";
+    	
+    	store.setNumberLine(numberLineString);
+    	actual = pUnit.appendDot();
+    	assertFalse(actual);
+    	
+    	numberLineString = "0";
+    	
     	store.setNumberLine(numberLineString);
     	actual = pUnit.appendDot();
     	assertTrue(actual);
+    }
+    
+    @Test
+    public void clear() {
+    	String expectedNumberLine = "0",
+    			expectedEquationLine = " ",
+    			actualNumberLine,
+    			actualEquationLine;
+    	Double expectedNumStore = Double.NaN,
+    			actualNumStore;
+    	
+    	pUnit.clear();
+    	
+    	actualEquationLine = pUnit.getEquationLine();
+    	assertEquals(expectedEquationLine, actualEquationLine);
+    	
+    	actualNumberLine = pUnit.getNumberLine();
+    	assertEquals(expectedNumberLine, actualNumberLine);
+    }
+    
+    @Test
+    public void backspace() {
+    	String numberLineString = "123",
+    			expected = "12",
+    			actual;
+    	Double expectedNumLine = 0.0,
+    			actualNumLine;
+    	
+    	store.setNumberLine(numberLineString);
+    	pUnit.backspace();
+    	
+    	actual = pUnit.getNumberLine();
+    	assertEquals(expected, actual);
+    	
+    	numberLineString = "";
+    	expected = "0";
+    	
+    	store.setNum(1.0);
+    	store.setNumberLine(numberLineString);
+    	pUnit.backspace();
+    	
+    	actual = pUnit.getNumberLine();
+    	assertEquals(expected, actual);
+    	
+    	actualNumLine = store.getNum();
+    	assertEquals(expectedNumLine, actualNumLine, EPS);
+    }
+    
+    @Test
+    public void sqrt() {
+    	String numberLineString = "9";
+    	boolean actual;
+    	
+    	store.setNumberLine(numberLineString);
+    	actual = pUnit.sqrt();
+    	assertTrue(actual);
+    }
+    
+    @Test
+    public void pow() {
+    	String numberLineString = "3";
+    	Double num = 3.0;
+    	boolean actual;
+    	
+    	store.setNum(num);
+    	store.setNumberLine(numberLineString);
+    	actual = pUnit.pow();
+    	assertTrue(actual);
+    }
+    
+    @Test
+    public void operation() {
+    	char op = '+';
+    	double num = 3.0;
+    	
+    	store.setNum(num);
+    	pUnit.operation(op);		
+    }
+    
+    @Test
+    public void equal() {
+    	boolean actual;
+
+    	actual = pUnit.equal();
+    	assertFalse(actual);
+    	
+    	pUnit.operation('+');
+    	pUnit.equal();
+    	
+    	pUnit.operation('/');
+    	pUnit.equal();
+    	
+    	pUnit.operation('*');
+    	pUnit.equal();
     }
     
     
