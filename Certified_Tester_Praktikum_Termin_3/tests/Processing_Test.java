@@ -368,6 +368,4 @@ public class Processing_Test {
     	actual = pUnit.equal();
     	assertFalse(actual);
     }
-    
-    
 }
